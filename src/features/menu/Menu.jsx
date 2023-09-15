@@ -9,6 +9,7 @@ function Menu() {
       <ul>
          {menu.map(pizza =>
             <li key={pizza.id}>
+               <img src={pizza.imageUrl} alt="" />
                {pizza.name}
             </li>)}
       </ul>
