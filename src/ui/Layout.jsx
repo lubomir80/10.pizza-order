@@ -1,6 +1,7 @@
 import Header from "../Header"
 import { Outlet, useNavigation } from 'react-router'
 import Loader from "./Loader"
+import CartOverview from "./CartOverview"
 
 function Layout() {
    const navigation = useNavigation()
@@ -15,6 +16,8 @@ function Layout() {
             <h1>Main</h1>
             <Outlet />
          </main>
+
+         <CartOverview />
 
       </div>
    )
