@@ -1,6 +1,6 @@
-import Header from "./Header"
+import Header from "../Header"
 import { Outlet, useNavigation } from 'react-router'
-import Loader from "./ui/Loader"
+import Loader from "./Loader"
 
 function Layout() {
    const navigation = useNavigation()
