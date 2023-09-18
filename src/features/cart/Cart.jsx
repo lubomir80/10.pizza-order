@@ -7,7 +7,7 @@ function Cart() {
    return (
       <div>
          <div>
-            <LinkButton to="/">
+            <LinkButton to="/menu">
                &larr; Back to menu
             </LinkButton>
             <h2>Your cart, NAME</h2>

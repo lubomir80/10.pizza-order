@@ -12,6 +12,7 @@ function Layout() {
       grid h-screen 
       grid-rows-[auto_1fr_auto]">
          {isLoading && <Loader />}
+
          <Header />
 
          <div className="overflow-y-scroll">
