@@ -1,17 +1,16 @@
 import { useLoaderData } from 'react-router'
 import { getMenu } from '../../services/apiRestaurant'
+import MenuItem from './MenuItem'
 
 function Menu() {
    const menu = useLoaderData()
    console.log(menu)
 
    return (
-      <ul>
+      <ul className='divide-y divide-stone-200 px-2'>
          {menu.map(pizza =>
-            <li key={pizza.id}>
-               <img src={pizza.imageUrl} alt="" />
-               {pizza.name}
-            </li>)}
+            <MenuItem key={pizza.id} pizza={pizza} />
+         )}
       </ul>
    )
 }
