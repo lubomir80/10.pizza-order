@@ -1,5 +1,5 @@
 import { useRouteError } from "react-router"
-import { Link } from "react-router-dom";
+import LinkButton from "./LinkButton";
 
 
 function Error() {
@@ -10,7 +10,7 @@ function Error() {
       <div>
          Error
          <p>{error.data || error.message}</p>
-         <Link to="/">Home</Link>
+         <LinkButton to="-1">&larr; Go back</LinkButton>
       </div >
    )
 }
