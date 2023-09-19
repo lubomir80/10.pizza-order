@@ -17,7 +17,6 @@ function Layout() {
 
          <div className="overflow-y-scroll">
             <main className=" max-w-3xl mx-auto">
-               <h1>Main</h1>
                <Outlet />
             </main>
          </div>
