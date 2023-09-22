@@ -4,6 +4,7 @@ import { formatCurrency } from "../../utils/helpers";
 import { addItem } from "../../Redux/Cart/cartSlice";
 import CartDeleteBtn from "../cart/CartDeleteBtn";
 import { getCurrentQtyByIdSelector } from "../../Redux/Cart/selectors";
+import UpdateItemQty from "../cart/UpdateItemQty";
 
 
 function MenuItem({ pizza }) {
@@ -37,7 +38,11 @@ function MenuItem({ pizza }) {
                   <p className="text-sm uppercase font-medium text-stone-500">Sold out</p>}
 
 
-               {isInCart && <CartDeleteBtn pizzaId={id} />}
+               {isInCart &&
+                  <div className="flex gap-3 sm:gap-8">
+                     <UpdateItemQty pizzaId={id} currentQuantity={currentQuanty} />
+                     <CartDeleteBtn pizzaId={id} />
+                  </div>}
 
                {!soldOut && !isInCart &&
                   <Button type="small" onClick={handleAddToCart}>
