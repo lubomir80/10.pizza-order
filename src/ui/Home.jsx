@@ -4,8 +4,9 @@ import CreateUser from "../features/user/CreateUser"
 import Button from "./Button"
 
 
+
 function Home() {
-   const username = useSelector(userSelector)
+   const { username } = useSelector(userSelector)
 
    return (
       <div className="my-10 text-center">

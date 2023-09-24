@@ -2,12 +2,14 @@ import { Form, redirect, useActionData, useNavigation } from "react-router-dom"
 import { createOrder } from "../../services/apiRestaurant";
 import Button from "../../ui/Button";
 import { userSelector } from "../../Redux/User/selectors";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { cartSelector, getTotalPriceSelector } from "../../Redux/Cart/selectors"
 import EmptyCart from "../cart/EmptyCart"
 import { clearCart } from "../../Redux/Cart/cartSlice";
 import { formatCurrency } from "../../utils/helpers";
 import { useState } from "react";
+import { fetchAddress } from "../../Redux/User/thunks";
+
 
 
 const isValidPhone = (str) =>
@@ -21,11 +23,18 @@ function CreateOrder() {
    const navigation = useNavigation()
    const isSubmitting = navigation.state === "submitting"
    const formErrors = useActionData()
-   const username = useSelector(userSelector)
+   const { username, status: addresStatus, position, address, error: errorAddress } = useSelector(userSelector)
+   const isLoadingAddress = addresStatus === "loading"
    const cart = useSelector(cartSelector)
    const totalCartPrice = useSelector(getTotalPriceSelector)
-   const priorityPrice = withPriority ? 1.2 : 0;
-   const totalPrice = totalCartPrice + priorityPrice;
+   const priorityPrice = withPriority ? 1.2 : 1;
+   const totalPrice = (totalCartPrice * priorityPrice).toFixed(2);
+   const dispatch = useDispatch()
+
+   const handelGetPsition = e => {
+      e.preventDefault()
+      dispatch(fetchAddress())
+   }
 
 
    if (!cart.length) return <EmptyCart />
@@ -37,6 +46,7 @@ function CreateOrder() {
          </h2>
 
          <Form method="POST">
+
             <div className="mb-5 flex gap-2 flex-col sm:flex-row sm:items-center">
                <label className="sm:basis-40">First Name</label>
                <input defaultValue={username} type="text" name="customer" required className="input grow" />
@@ -53,11 +63,27 @@ function CreateOrder() {
                </div>
             </div>
 
-            <div className="mb-5 flex gap-2 flex-col sm:flex-row sm:items-center">
+            <div className="mb-5 flex gap-2 flex-col sm:flex-row sm:items-center relative">
                <label className="sm:basis-40">Address</label>
-               <div className="grow">
-                  <input type="text" name="address" required className="input w-full" />
+               <div className="grow ">
+                  <input
+                     className="input w-full"
+                     type="text"
+                     name="address"
+                     disabled={isLoadingAddress}
+                     defaultValue={address}
+                     required />
+
+                  {addresStatus === "error" && <p
+                     className="text-xs mt-2 text-red-700 bg-red-100 p-2 rounded-md">
+                     {errorAddress}
+                  </p>}
                </div>
+               {!position.latitude && !position.longitude &&
+                  (<span className="absolute right-[3px] top-[35px] sm:top-[3px] md: right-[7px] md:top-[7px]">
+                     <Button disabled={isLoadingAddress} type="small" onClick={handelGetPsition}>Get position</Button>
+                  </span>)
+               }
             </div>
 
             <div className="mb-12 flex gap-5 items-center">
@@ -74,7 +100,8 @@ function CreateOrder() {
 
             <div>
                <input type="hidden" name="cart" value={JSON.stringify(cart)} />
-               <Button type="primary" disabled={isSubmitting} >
+               <input type="hidden" name="position" value={position.latitude && position.longitude ? `${position.latitude}${position.longitude}` : ""} />
+               <Button type="primary" disabled={isSubmitting || isLoadingAddress} >
                   {isSubmitting ? "Placing order..." : `Order now from ${formatCurrency(totalPrice)}`}
                </Button>
             </div>
@@ -87,6 +114,8 @@ function CreateOrder() {
 export async function action({ request }) {
    const formData = await request.formData()
    const data = Object.fromEntries(formData)
+
+
 
    const order = {
       ...data,

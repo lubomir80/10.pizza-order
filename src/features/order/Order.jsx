@@ -10,6 +10,7 @@ import OrderItem from "./OrderItem";
 function Order() {
    const order = useLoaderData()
 
+   console.log(order)
 
    const {
       id,
@@ -20,7 +21,7 @@ function Order() {
       estimatedDelivery,
       cart,
    } = order;
-   const deliveryIn = calcMinutesLeft(estimatedDelivery);
+   const deliveryIn = calcMinutesLeft(order);
 
 
    return (
@@ -54,8 +55,8 @@ function Order() {
 
          <div className="space-y-2 bg-stone-200 py-5 px-6">
             <p className="text-sm font-medium text-stone-600">Price pizza: {formatCurrency(orderPrice)}</p>
-            {priority && <p className="text-sm font-medium text-stone-600">Price priority: {formatCurrency(priorityPrice)}</p>}
-            <p className="font-bold">To pay on delivery: {formatCurrency(orderPrice + priorityPrice)}</p>
+            {priority && <p className="text-sm font-medium text-stone-600">Price priority: {formatCurrency(orderPrice * 0.2)}</p>}
+            <p className="font-bold">To pay on delivery: {formatCurrency(orderPrice * 1.2)}</p>
          </div>
 
       </div>

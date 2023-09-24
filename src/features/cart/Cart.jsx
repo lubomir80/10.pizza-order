@@ -12,7 +12,7 @@ import EmptyCart from "./EmptyCart";
 function Cart() {
    const dispatch = useDispatch()
    const cart = useSelector(cartSelector)
-   const username = useSelector(userSelector)
+   const { username } = useSelector(userSelector)
    const handleClearCart = () => dispatch(clearCart())
 
 

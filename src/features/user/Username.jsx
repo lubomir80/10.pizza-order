@@ -4,7 +4,7 @@ import { useSelector } from "react-redux"
 
 
 function Username() {
-   const username = useSelector(userSelector)
+   const { username } = useSelector(userSelector)
 
    if (!username) return null;
 

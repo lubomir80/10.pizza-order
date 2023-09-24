@@ -10,5 +10,5 @@ export const getTotalQuantitySelector = state => {
 }
 
 export const getTotalPriceSelector = state => {
-   return state.cart.cart.reduce((sum, item) => sum + item.unitPrice, 0);
+   return state.cart.cart.reduce((sum, item) => sum + item.totalPrice, 0);
 }
