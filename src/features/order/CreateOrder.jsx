@@ -9,7 +9,9 @@ import { clearCart } from "../../Redux/Cart/cartSlice";
 import { formatCurrency } from "../../utils/helpers";
 import { useState } from "react";
 import { fetchAddress } from "../../Redux/User/thunks";
+import store from "../../Redux/store";
 
+store
 
 
 const isValidPhone = (str) =>
@@ -130,6 +132,7 @@ export async function action({ request }) {
    if (Object.keys(errors).length > 0) return errors
 
    const newOrder = await createOrder(order)
+   store.dispatch(clearCart())
 
    return redirect(`/order/${newOrder.id}`)
 }
