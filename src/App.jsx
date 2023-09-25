@@ -5,6 +5,7 @@ import Error from "./ui/Error"
 import Cart from "./features/cart/Cart"
 import Order, { loader as orderLoader } from "./features/order/Order"
 import CreateOrder, { action as createOrderAction } from "./features/order/CreateOrder"
+import { action as updateOrderAction } from "./features/order/UpdateOrder"
 import Home from "./ui/Home"
 
 
@@ -19,7 +20,6 @@ const router = createBrowserRouter([
             element: <Home />,
          },
          {
-
             path: "/menu",
             element: <Menu />,
             loader: menuLoader,
@@ -33,13 +33,14 @@ const router = createBrowserRouter([
             path: "/order/new",
             element: <CreateOrder />,
             action: createOrderAction,
-            // errorElement: <Error />,
+            errorElement: <Error />,
          },
          {
             path: "/order/:orderId",
             element: <Order />,
             loader: orderLoader,
             errorElement: <Error />,
+            action: updateOrderAction,
          },
       ]
    },

@@ -15,8 +15,6 @@ function CreateUser() {
 
    const handelSubmit = (e) => {
       e.preventDefault()
-
-      console.log(username)
       if (!username) return
       dispatch(updateName(username))
       navigate("/menu")
